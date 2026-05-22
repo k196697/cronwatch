@@ -1,0 +1,27 @@
+# cronwatch example configuration
+# Copy this file to config.yaml and adjust as needed.
+
+# log_level controls verbosity: debug | info | warn | error
+log_level: info
+
+# alert defines where failure notifications are sent.
+alert:
+  # email recipient for failure alerts (optional)
+  email: ops@example.com
+  # webhook URL for Slack / PagerDuty / etc. (optional)
+  webhook: https://hooks.slack.com/services/XXX/YYY/ZZZ
+
+# jobs lists each cron job cronwatch should monitor.
+jobs:
+  - name: nightly-backup
+    # Standard cron expression (minute hour dom month dow)
+    schedule: "0 2 * * *"
+    # Maximum allowed runtime before an alert is triggered.
+    timeout: 45m
+    # The command that is expected to run on this schedule.
+    command: /usr/local/bin/backup.sh
+
+  - name: hourly-report
+    schedule: "0 * * * *"
+    timeout: 5m
+    command: /opt/scripts/generate_report.py
